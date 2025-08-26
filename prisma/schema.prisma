@@ -9,13 +9,14 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                String       @id @default(uuid())
+  name              String?
+  email             String?      @unique
+  emailVerified     DateTime?    @map("email_verified")
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  createdWorkspaces Workspace[]  @relation("WorkspaceCreator")
 }
 
 model Account {
@@ -50,4 +51,21 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creatorId String
+  creator   User   @relation("WorkspaceCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+
+  @@index([creatorId])
+}
+
+enum WorkspaceRole {
+  MEMBER
+  ADMIN
 }
