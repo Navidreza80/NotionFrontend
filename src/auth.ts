@@ -3,6 +3,7 @@ import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "./generated/prisma/index";
+import Resend from "next-auth/providers/resend";
 
 const prisma = new PrismaClient();
 
@@ -17,6 +18,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientId: process.env.AUTH_GOOGLE_ID,
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
     }),
+    Resend,
   ],
   callbacks: {
     async session({ session, user }) {
