@@ -31,7 +31,7 @@ const iconMap = {
   Globe2,
   Share2,
   Settings,
-  Store,         // ✅ درست شد
+  Store,         
   Trash2,
   MessageCircle,
 };
