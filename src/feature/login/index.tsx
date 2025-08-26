@@ -9,13 +9,7 @@ import Image from "next/image";
 
 export function LoginForm({ className }: React.ComponentProps<"div">) {
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signIn("github");
-      }}
-      className={cn("flex flex-col gap-6", className)}
-    >
+    <form className={cn("flex flex-col gap-6", className)}>
       <Card className="overflow-hidden p-0 bg-card border-border">
         <CardContent className="grid p-0 md:grid-cols-2">
           <div className="p-6 md:p-8">
@@ -73,6 +67,10 @@ export function LoginForm({ className }: React.ComponentProps<"div">) {
                   <span className="sr-only">Login with Apple</span>
                 </Button>
                 <Button
+                  onClick={async () => {
+                    "use server";
+                    await signIn("google", { redirectTo: "/" });
+                  }}
                   variant="outline"
                   type="button"
                   className="w-full border-border"
@@ -86,8 +84,12 @@ export function LoginForm({ className }: React.ComponentProps<"div">) {
                   <span className="sr-only">Login with Google</span>
                 </Button>
                 <Button
+                  onClick={async () => {
+                    "use server";
+                    await signIn("github", { redirectTo: "/" });
+                  }}
                   variant="outline"
-                  type="submit"
+                  type="button"
                   className="w-full border-border"
                 >
                   <Github />
