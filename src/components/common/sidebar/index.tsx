@@ -12,7 +12,7 @@ import {
   Share2,
   Star,
   Store,
-  Trash2
+  Trash2,
 } from "lucide-react";
 
 const iconMap = {
@@ -67,7 +67,8 @@ const SectionTitle = ({ children }) => (
 
 const Divider = () => <div className="h-px bg-zinc-800" />;
 
-export default function Sidebar() {
+export default async function Sidebar() {
+
   return (
     <div className="min-h-screen bg-[#191919] text-[#ffffffcf]">
       {/* Sidebar */}

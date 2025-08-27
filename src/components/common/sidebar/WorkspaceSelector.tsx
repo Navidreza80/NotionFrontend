@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import CustomPopover from "@/components/custom/CustomPopover";
 import { Workspace } from "@/generated/prisma";
+import { getServerCookie } from "@/helper/server-cookie";
 import { ChevronDown, PenSquare } from "lucide-react";
 import { Session } from "next-auth";
 import { cookies } from "next/headers";
@@ -85,13 +86,36 @@ const WorkspaceSelector = async () => {
     }
   };
   const workspaces = await fetchWorkspaces();
+  const fetchCurrentWorkspace = async () => {
+    "use server";
+    try {
+      const workspaceId = await getServerCookie("workspaceId");
+      const res = await fetch(
+        `https://notionbackend-production-8193.up.railway.app/api/workspaces/${workspaceId}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${raw}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const workspace = await res.json();
+      return workspace;
+    } catch (error) {
+      throw error;
+    }
+  };
+  const currentWorkspace: Workspace = await fetchCurrentWorkspace();
   return (
     <div className="flex items-center justify-between gap-2 px-3 pt-3 pb-2">
       <div className="flex items-center gap-2">
         <div className="h-5 w-5 rounded bg-white/10 grid place-items-center text-white/50 font-semibold text-xs">
-          T
+          {currentWorkspace.name.slice(0, 1).toUpperCase()}
         </div>
-        <div className="text-sm font-bold">Taha’s</div>
+        <div className="text-sm font-bold w-[120px] whitespace-nowrap overflow-hidden text-ellipsis">
+          {currentWorkspace.name}
+        </div>
       </div>
       <div className="flex gap-2 items-center">
         {button(session, workspaces).map((item, index) => (
