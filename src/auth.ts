@@ -21,9 +21,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Resend,
   ],
   callbacks: {
-    async session({ session, user }) {
-      session.user.id = user.id;
-      return session;
+    async jwt({ token, user, account }) {
+      // Runs once at sign in
+      if (user) {
+        token.id = user.id;
+      }
+
+      // Save provider's access_token (e.g. Google, GitHub)
+      if (account?.access_token) {
+        token.accessToken = account.access_token;
+      }
+
+      return token;
+    },
+
+    async session({ session, token }) {
+      if (token?.id) {
+        session.user.id = token.id as string;
+      }
+
+      if (token?.accessToken) {
+        session.accessToken = token.accessToken as string;
+      }
+
+      return session; // 👈 must return
     },
   },
   secret: process.env.AUTH_SECRET,
