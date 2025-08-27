@@ -1,21 +1,18 @@
 import WorkspaceSelector from "@/components/common/sidebar/WorkspaceSelector";
-import ChatBot from "@/feature/chatbot/page";
 import {
-  Bell,
   BookOpenText,
   Database,
   Globe2,
   Home,
   Inbox,
   MessageCircle,
-  MoreHorizontal,
   Plus,
   Search,
   Settings,
   Share2,
   Star,
   Store,
-  Trash2,
+  Trash2
 } from "lucide-react";
 
 const iconMap = {
