@@ -1,6 +1,10 @@
 import Sidebar from "@/components/common/sidebar";
+import { getServerCookie } from "@/helper/server-cookie";
+import { redirect } from "next/navigation";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const workspaceId = await getServerCookie("workspaceId");
+  if (!workspaceId) redirect("/select-workspace");
   return (
     <main className="max-h-screen flex">
       <Sidebar />
