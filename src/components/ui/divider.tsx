@@ -1,0 +1,1 @@
+export const Divider = () => <div className="h-px bg-zinc-800" />;
