@@ -1,9 +1,8 @@
 "use server";
 
-import { auth } from "@/auth";
-import { getJWTToken } from "./jwt.action";
 import { setServerCookie } from "@/helper/server-cookie";
 import { revalidatePath } from "next/cache";
+import { getJWTToken } from "./jwt.action";
 
 export const fetchWorkspaces = async () => {
   const rawJWT = await getJWTToken();
@@ -47,7 +46,6 @@ export const fetchWorkspaceById = async (workspaceId: string) => {
 
 export const createWorkspace = async (data: { name: string }) => {
   const rawJWT = await getJWTToken();
-  const session = await auth();
   try {
     const res = await fetch(
       `https://notionbackend-production-8193.up.railway.app/api/workspaces`,
@@ -58,7 +56,6 @@ export const createWorkspace = async (data: { name: string }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          creatorId: session?.user?.id,
           name: data.name,
         }),
       }

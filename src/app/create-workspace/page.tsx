@@ -1,10 +1,10 @@
 "use client";
 
+import { createWorkspace } from "@/lib/actions/workspaces.action";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createWorkspace } from "@/lib/actions/workspaces.action";
-import { redirect } from "next/navigation";
 
 const FormSchema = z.object({
   name: z
@@ -20,7 +20,6 @@ export default function Page() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    reset,
   } = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: { name: "" },
@@ -29,7 +28,6 @@ export default function Page() {
 
   const onSubmit = async (values: FormValues): Promise<void> => {
     await createWorkspace(values);
-    reset();
     redirect("/");
   };
 
