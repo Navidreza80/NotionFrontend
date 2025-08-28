@@ -1,120 +1,20 @@
 "use server";
 
-import { auth } from "@/auth";
-import CustomPopover from "@/components/custom/CustomPopover";
 import { Workspace } from "@/generated/prisma";
 import { getServerCookie } from "@/helper/server-cookie";
-import { ChevronDown, PenSquare } from "lucide-react";
-import { Session } from "next-auth";
-import { cookies } from "next/headers";
-import Image from "next/image";
-import Correct from "../svg/Correct";
-
-const button = (
-  session: Session,
-  workspaces: Workspace[],
-  currentWorkspace: string | null
-) => [
-  {
-    icon: (
-      <CustomPopover
-        className="w-[300px] bg-[#202020] border-[#383838] border-[1px] p-0 rounded-lg"
-        trigger={<ChevronDown size={16} className="text-zinc-400" />}
-      >
-        <div className="p-3 w-full flex gap-2 items-center">
-          <Image
-            src={
-              session.user.image ||
-              "https://img.icons8.com/?size=100&id=82751&format=png&color=fff"
-            }
-            alt={session.user.name || "User profile pictures"}
-            width={36}
-            height={36}
-            className="w-9 h-9 rounded-md"
-          />
-          <div className="flex flex-col justify-start">
-            <h4 className="whitespace-nowrap max-w-[200px] overflow-hidden text-ellipsis text-title text-[13px] font-bold">
-              Navid Reza Abbaszadeh&apos;s Workspace
-            </h4>
-            <span className="text-[12px] text-white/50 flex items-center gap-1">
-              Free Plan <p className="leading-0.5">.</p> 2 Members
-            </span>
-          </div>
-        </div>
-        <div className="w-full border mt-3 border-[#383838] h-[1px]"></div>
-        <div className="p-3 w-full flex flex-col gap-y-2">
-          <h5 className="text-[12px] text-white/50">{session.user.email}</h5>
-          {workspaces.map((item) => (
-            <div key={item.id} className="flex justify-between items-center">
-              <div className="flex gap-x-2 items-center">
-                <span className="w-5 h-5 flex items-center justify-center rounded text-[13px] bg-[#383838] text-white/50">
-                  {item.name.slice(0, 1).toUpperCase()}
-                </span>
-                <p className="text-title text-sm">{item.name}</p>
-              </div>
-              {item.id == currentWorkspace && <Correct />}
-            </div>
-          ))}
-        </div>
-      </CustomPopover>
-    ),
-  },
-  { icon: <PenSquare size={16} className="text-zinc-400" /> },
-];
+import {
+  fetchWorkspaceById,
+  fetchWorkspaces,
+} from "@/lib/actions/workspaces.action";
+import { redirect } from "next/navigation";
+import Buttons from "./Buttons";
 
 const WorkspaceSelector = async () => {
-  const session = await auth();
-  if (!session) return;
-  const cookieStore = cookies();
-  const res = await fetch("http://localhost:3000/api/token", {
-    cache: "no-store",
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-
-  const { raw } = await res.json();
-  const fetchWorkspaces = async () => {
-    "use server";
-    try {
-      const res = await fetch(
-        "https://notionbackend-production-8193.up.railway.app/api/me/workspaces",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${raw}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const workspaces = await res.json();
-      return workspaces;
-    } catch (error) {
-      throw error;
-    }
-  };
-  const workspaces = await fetchWorkspaces();
+  const workspaces = fetchWorkspaces();
   const workspaceId = await getServerCookie("workspaceId");
-  const fetchCurrentWorkspace = async () => {
-    "use server";
-    try {
-      const res = await fetch(
-        `https://notionbackend-production-8193.up.railway.app/api/workspaces/${workspaceId}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${raw}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const workspace = await res.json();
-      return workspace;
-    } catch (error) {
-      throw error;
-    }
-  };
-  const currentWorkspace: Workspace = await fetchCurrentWorkspace();
+  if (!workspaceId) redirect("/select-workspace");
+  const currentWorkspace: Workspace = await fetchWorkspaceById(workspaceId);
+
   return (
     <div className="flex items-center justify-between gap-2 px-3 pt-3 pb-2">
       <div className="flex items-center gap-2">
@@ -126,14 +26,10 @@ const WorkspaceSelector = async () => {
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        {button(session, workspaces, workspaceId).map((item, index) => (
-          <span
-            key={index}
-            className="rounded p-1 hover:bg-zinc-800 cursor-pointer w-6 h-6 flex items-center justify-center"
-          >
-            {item.icon}
-          </span>
-        ))}
+        <Buttons
+          currentWorkspace={workspaceId}
+          data={workspaces}
+        />
       </div>
     </div>
   );

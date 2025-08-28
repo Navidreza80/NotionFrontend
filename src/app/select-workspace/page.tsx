@@ -1,4 +1,4 @@
-import SelectWorkspace from "@/feature/selectWorkspace";
+import SelectWorkspace from "@/feature/select-workspace";
 
 const SelectWorkspacePage = () => {
   return <SelectWorkspace />;

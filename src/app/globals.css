@@ -8,9 +8,10 @@ body {
 @theme {
   --color-background: #191919;
   --color-surface: #5d5d5d;
-  --color-border: #959595;
+  --color-border: #383838;
   --color-card: #202020;
   --color-sidebar: #2c2c2c;
   --color-button: #414141;
   --color-title: #f0f0f0;
+  --color-skeleton: #383838;
 }
