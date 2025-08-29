@@ -14,8 +14,8 @@ const WorkspaceList = ({ data }: { data: Promise<Workspace[]> }) => {
         <SelectWorkspaceCard
           key={workspace.id}
           workspace={workspace}
-          handleWorkspaceSelect={() => {
-            handleSelect(workspace.id);
+          handleWorkspaceSelect={async () => {
+            await handleSelect(workspace.id);
             redirect("/");
           }}
         />
