@@ -1,15 +1,24 @@
+
 import Sidebar from "@/components/common/sidebar";
 import { getServerCookie } from "@/helper/server-cookie";
 import { redirect } from "next/navigation";
 
-const Layout = async ({ children }: { children: React.ReactNode }) => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+export default async function Layout({ children }: LayoutProps) {
   const workspaceId = await getServerCookie("workspaceId");
   if (!workspaceId) redirect("/select-workspace");
   return (
-    <main className="max-h-screen flex">
+    <div className="min-h-screen w-full bg-[#191919] text-[#ffffffcf] flex">
+      {/* Sidebar */}
       <Sidebar />
-      <div className="flex-1">{children}</div>
-    </main>
+
+      {/* Main Content */}
+      <div className="w-full">
+        {children}
+      </div>
+    </div>
   );
-};
-export default Layout;
+}
