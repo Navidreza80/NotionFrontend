@@ -1,12 +1,13 @@
 "use client";
 
-import { ChevronsRight } from "lucide-react";
-import { createContext, useContext, useState, Suspense } from "react";
+import { ChevronsRight, File } from "lucide-react";
+import { createContext, useContext, useState, Suspense, useEffect } from "react";
 import WorkspaceSelector from "@/components/common/sidebar/WorkspaceSelector";
 import { SIDEBARTOPITEMS } from "@/constant";
 import Loading from "./Loading";
 import { NavItem } from "./SidebarItem";
 import { SectionTitle } from "./SidebarTitle";
+import { fetchPages } from "@/lib/actions/page.action";
 
 interface SidebarContextProps {
   isOpen: boolean;
@@ -24,9 +25,42 @@ export function useSidebar() {
 
 export default function SidebarClient() {
   const [isOpen, setIsOpen] = useState(true);
+  const [pages, setPages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await fetchPages();
+        console.log("📄 Pages data:", data); 
+        setPages(data);
+      } catch (err) {
+        console.error("❌ Error fetching pages:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, []);
 
   const onClose = () => setIsOpen(false);
   const onToggle = () => setIsOpen((prev) => !prev);
+
+    if (loading) {
+    return (
+      <div className="flex flex-col gap-2">
+        {Array.from({ length: 5 }).map((_, idx) => (
+          <div
+            key={idx}
+            className="flex items-center gap-2 mb-0.5 px-2 py-[5px] rounded-md"
+          >
+            <div className="w-5 h-5 rounded-md bg-zinc-700/40 animate-pulse" />
+            <div className="flex-1 h-4 bg-zinc-700/40 rounded animate-pulse" />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <SidebarContext.Provider value={{ isOpen, onClose, onToggle }}>
@@ -56,7 +90,7 @@ export default function SidebarClient() {
         style={{ width: isOpen ? 290 : 0 }}
       >
         {isOpen && (
-          <div className="flex flex-col justify-between h-screen border-r border-[#383838] bg-[#202020] px-1 pb-4 overflow-hidden">
+          <div className="flex flex-col h-screen border-r border-[#383838] bg-[#202020] px-1 pb-4 overflow-hidden">
             {/* Workspace Header */}
             <Suspense fallback={<Loading />}>
               <WorkspaceSelector />
@@ -70,8 +104,15 @@ export default function SidebarClient() {
             </div>
 
             {/* Private Pages */}
-            <div className="mt-auto px-1">
+            <div className=" px-1">
               <SectionTitle>Private</SectionTitle>
+              {pages.map((page, index) => (
+                <NavItem
+                  key={page.id || index}
+                  label={page.title}
+                  icon="File" 
+                />
+              ))}
             </div>
           </div>
         )}
