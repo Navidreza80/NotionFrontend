@@ -15,3 +15,7 @@ body {
   --color-title: #f0f0f0;
   --color-skeleton: #383838;
 }
+
+.bn-editor {
+  min-height: 100vh;
+}

@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.10.0",
+    "@blocknote/core": "^0.36.1",
+    "@blocknote/mantine": "^0.36.1",
+    "@blocknote/react": "^0.36.1",
     "@hookform/resolvers": "^5.2.1",
     "@prisma/client": "^6.14.0",
     "@radix-ui/react-dialog": "^1.1.15",
