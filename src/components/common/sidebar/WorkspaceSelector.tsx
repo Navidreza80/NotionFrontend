@@ -21,16 +21,22 @@ const WorkspaceSelector = async () => {
         <div className="h-5 w-5 rounded bg-white/10 grid place-items-center text-white/50 font-semibold text-xs">
           {currentWorkspace.name.slice(0, 1).toUpperCase()}
         </div>
-        <div className="text-sm font-bold w-[120px] whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="text-sm font-bold max-w-[120px] whitespace-nowrap overflow-hidden text-ellipsis">
           {currentWorkspace.name}
         </div>
-      </div>
-      <div className="flex gap-2 items-center">
         <Buttons
           currentWorkspace={workspaceId}
           data={workspaces}
         />
       </div>
+      <div className="flex gap-1">
+        <Buttons
+          currentWorkspace={workspaceId}
+          data={workspaces}
+          isLeft
+        />
+      </div>
+
     </div>
   );
 };

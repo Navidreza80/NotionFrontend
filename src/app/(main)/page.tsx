@@ -18,20 +18,7 @@ import Image from "next/image";
 
 export default function NotionChatbot() {
   return (
-    <div className="w-full px-4 flex flex-col flex-wrap gap-6 lg:px-8 mt-16 pt-5 pb-20 max-w-[800px] mx-auto">
-      {/* Top right actions */}
-      <div className="fixed w-full right-3 top-0 z-40 md:mt-3 mt-5 flex justify-end items-center">
-        <div className="rounded-lg flex gap-2 text-zinc-400 bg-[#222222] px-2 py-1 w-fit">
-          <button className="p-1.5 cursor-pointer rounded-md hover:bg-zinc-800">
-            <Bell size={18} />
-          </button>
-          <button className="p-1.5 cursor-pointer rounded-md hover:bg-zinc-800">
-            <MoreHorizontal size={18} />
-          </button>
-        </div>
-
-      </div>
-
+    <div className="w-full max-w-[800px] px-4 flex flex-col flex-wrap gap-6 lg:px-8 mt-16 pt-5 pb-20  mx-auto">
       <div>
         {/* Heading */}
         <div className="flex justify-center gap-1 h-15 place-items-center">
