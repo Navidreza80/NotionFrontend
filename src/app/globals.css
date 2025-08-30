@@ -17,5 +17,6 @@ body {
 }
 
 .bn-editor {
+  background-color: #191919 !important;
   min-height: 100vh;
 }

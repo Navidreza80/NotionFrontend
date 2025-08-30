@@ -4,9 +4,12 @@ import { fetchPageById } from "@/lib/actions/page.action";
 const Page = async () => {
   const page = await fetchPageById("1");
   const content = page.content;
+  console.log(page.updatedAt)
   return (
-    <div>
-      <EditorWrapper content={content} />
+    <div className="p-4">
+
+
+      <EditorWrapper title={page.title} content={content} updatedAt={page.updatedAt} />
     </div>
   );
 };
