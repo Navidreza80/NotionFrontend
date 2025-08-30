@@ -10,7 +10,7 @@ export const fetchWorkspaces = async () => {
     const res = await fetch(
       "https://notionbackend-production-8193.up.railway.app/api/me/workspaces",
       {
-        next: { tags: ["workspaces"] },
+        next: { tags: ["workspaces"], revalidate: 120 },
         method: "GET",
         headers: {
           Authorization: `Bearer ${rawJWT}`,
@@ -36,6 +36,7 @@ export const fetchWorkspaceById = async (workspaceId: string) => {
           Authorization: `Bearer ${rawJWT}`,
           "Content-Type": "application/json",
         },
+        next: { revalidate: 120 },
       }
     );
     const workspace = await res.json();

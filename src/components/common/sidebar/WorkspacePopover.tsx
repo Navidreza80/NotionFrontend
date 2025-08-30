@@ -1,6 +1,6 @@
 import { Workspace } from "@/generated/prisma";
 import { handleSelect } from "@/lib/actions/workspaces.action";
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronDown, Loader, Plus } from "lucide-react";
 import { Session } from "next-auth";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import EditWorkspace from "./EditWorkspace";
 const CustomPopover = dynamic(
   () => import("@/components/custom/CustomPopover"),
   {
-    loading: () => <p>Loading...</p>,
+    loading: () => <Loader className="animate-spin" />,
     ssr: false,
   }
 );

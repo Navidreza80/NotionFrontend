@@ -5,8 +5,8 @@ interface PageProps {
   searchParams: { isOpen: string };
 }
 
-const HomePage = ({ searchParams }: PageProps) => {
-  const { isOpen } = searchParams;
+const HomePage = async ({ searchParams }: PageProps) => {
+  const { isOpen } = await searchParams;
   return (
     <Container isOpen={isOpen}>
       <NotionChatbot  />

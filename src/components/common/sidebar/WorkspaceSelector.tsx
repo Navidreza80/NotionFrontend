@@ -21,7 +21,7 @@ const WorkspaceSelector = async () => {
         <div className="h-5 w-5 rounded bg-white/10 grid place-items-center text-white/50 font-semibold text-xs">
           {currentWorkspace.name.slice(0, 1).toUpperCase()}
         </div>
-        <div className="text-sm font-bold md:max-w-[120px] md:group-hover:w-[70px] w-[70px] whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="text-sm font-bold md:max-w-[120px] md:group-hover:w-[70px] max-w-[70px] whitespace-nowrap overflow-hidden text-ellipsis">
           {currentWorkspace.name}
         </div>
       </div>
