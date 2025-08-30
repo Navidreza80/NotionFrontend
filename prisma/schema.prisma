@@ -9,15 +9,15 @@ datasource db {
 }
 
 model User {
-  id                String      @id @default(uuid())
+  id                String            @id @default(uuid())
   name              String?
-  email             String?     @unique
-  emailVerified     DateTime?   @map("email_verified")
+  email             String?           @unique
+  emailVerified     DateTime?         @map("email_verified")
   image             String?
   accounts          Account[]
-  Project           Project[]
   sessions          Session[]
-  createdWorkspaces Workspace[] @relation("WorkspaceCreator")
+  createdWorkspaces Workspace[]       @relation("WorkspaceCreator")
+  WorkspaceMember   WorkspaceMember[]
 }
 
 model Account {
@@ -55,23 +55,39 @@ model VerificationToken {
 }
 
 model Workspace {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  creatorId String
-  creator   User     @relation("WorkspaceCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  id              String            @id @default(cuid())
+  name            String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  creatorId       String
+  Page            Page[]
+  creator         User              @relation("WorkspaceCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  WorkspaceMember WorkspaceMember[]
 
   @@index([creatorId])
 }
 
-model Project {
-  id          String   @id
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
+model Page {
+  id           String    @id
+  title        String
+  updatedAt    DateTime
+  createdAt    DateTime  @default(now())
+  isSubPage    Boolean
+  parentPageId String?
+  workspaceId  String
+  content      Json?
+  Workspace    Workspace @relation(fields: [workspaceId], references: [id])
+}
+
+model WorkspaceMember {
+  id          String        @id
   userId      String
-  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspaceId String
+  role        WorkspaceRole
+  updatedAt   DateTime
+  createdAt   DateTime      @default(now())
+  User        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
 }
 
 enum WorkspaceRole {

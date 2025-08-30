@@ -2,6 +2,7 @@
 
 "use client";
 
+import { INITIALCONTENT } from "@/constant";
 import { updatePageById } from "@/lib/actions/page.action";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
@@ -26,7 +27,9 @@ export default function Editor({
   title,
   setPageTitle,
 }: EditorProps) {
-  const editor = useCreateBlockNote({ initialContent: content });
+  const editor = useCreateBlockNote({
+    initialContent: content ?? INITIALCONTENT,
+  });
   const sendPatch = useDebouncedCallback(() => {
     socket.emit("page:patch", {
       id: pageId,
@@ -41,7 +44,7 @@ export default function Editor({
   }, 400);
 
   return (
-    <div className="!max-w-[710px] mx-auto">
+    <div className="md:!max-w-[710px] max-w-[400px] mx-auto">
       <input
         type="text"
         onChange={async (e) => {
@@ -51,7 +54,7 @@ export default function Editor({
         defaultValue={title}
         className="text-5xl font-bold py-6 outline-0 pl-[54px] h-[100px] mt-[130px] text-title"
       />
-      <BlockNoteView className="!max-w-[710px] mx-auto" editor={editor} />
+      <BlockNoteView className="md:!max-w-[710px] max-w-[400px] mx-auto" editor={editor} />
     </div>
   );
 }

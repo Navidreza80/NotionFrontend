@@ -63,7 +63,7 @@ export const NavItem = ({
         </span>
       )}
 
-      <span className="truncate">{label}</span>
+      <span className="truncate text-[15px] font-semibold">{label}</span>
     </div>
   );
 };
