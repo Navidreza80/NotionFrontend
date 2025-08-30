@@ -23,7 +23,7 @@ export function useSidebar() {
 }
 
 export default function SidebarClient() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const onClose = () => setIsOpen(false);
   const onToggle = () => setIsOpen((prev) => !prev);
