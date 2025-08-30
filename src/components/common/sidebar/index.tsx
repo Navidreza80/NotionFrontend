@@ -1,11 +1,19 @@
 import WorkspaceSelector from "@/components/common/sidebar/WorkspaceSelector";
 import { SIDEBARTOPITEMS } from "@/constant";
+import { fetchPages } from "@/lib/actions/page.action";
 import { Suspense } from "react";
 import Loading from "./Loading";
+import Pages from "./Pages";
 import { NavItem } from "./SidebarItem";
 import { SectionTitle } from "./SidebarTitle";
+import PageLoading from "./PageLoading";
 
-export default async function Sidebar() {
+export default async function Sidebar({
+  expandedPageId,
+}: {
+  expandedPageId: string;
+}) {
+  const pages = fetchPages();
   return (
     <div
       className={`fixed lg:static top-0 left-0 z-50 transform lg:transform-none transition-transform duration-300 translate-x-0`}
@@ -24,9 +32,11 @@ export default async function Sidebar() {
                 <NavItem key={index} label={item.label} icon={item.icon} />
               ))}
             </div>
-
             {/* Private pages */}
             <SectionTitle>Private</SectionTitle>
+            <Suspense fallback={<PageLoading />}>
+              <Pages expandedPageId={expandedPageId} data={pages} />
+            </Suspense>
           </div>
         </aside>
       </div>
