@@ -16,20 +16,17 @@ const WorkspaceSelector = async () => {
   const currentWorkspace: Workspace = await fetchWorkspaceById(workspaceId);
 
   return (
-    <div className="flex items-center justify-between gap-2 px-3 pt-3 pb-2">
+    <div className="flex items-center justify-between gap-2 px-2 ml-1 py-1 group w-[224px] hover:bg-zinc-800/70 rounded-md mt-1 cursor-pointer">
       <div className="flex items-center gap-2">
         <div className="h-5 w-5 rounded bg-white/10 grid place-items-center text-white/50 font-semibold text-xs">
           {currentWorkspace.name.slice(0, 1).toUpperCase()}
         </div>
-        <div className="text-sm font-bold w-[120px] whitespace-nowrap overflow-hidden text-ellipsis">
+        <div className="text-sm font-bold md:max-w-[120px] md:group-hover:w-[70px] w-[70px] whitespace-nowrap overflow-hidden text-ellipsis">
           {currentWorkspace.name}
         </div>
       </div>
       <div className="flex gap-2 items-center">
-        <Buttons
-          currentWorkspace={workspaceId}
-          data={workspaces}
-        />
+        <Buttons currentWorkspace={workspaceId} data={workspaces} />
       </div>
     </div>
   );

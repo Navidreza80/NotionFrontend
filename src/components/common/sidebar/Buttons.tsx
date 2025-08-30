@@ -22,7 +22,7 @@ const Buttons = ({
     (item, index) => (
       <span
         key={index}
-        className="rounded p-1 hover:bg-zinc-800 cursor-pointer w-6 h-6 flex items-center justify-center"
+        className={`rounded p-1 hover:bg-zinc-700 cursor-pointer w-6 h-6 items-center justify-center ${item.className}`}
       >
         {item.icon}
       </span>
