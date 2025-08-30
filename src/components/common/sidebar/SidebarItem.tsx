@@ -13,7 +13,6 @@ import {
   Store,
   Trash2,
   ChevronRight,
-  File,
 } from "lucide-react";
 
 const ICONS = {
@@ -31,7 +30,6 @@ const ICONS = {
   Store,
   Trash2,
   MessageCircle,
-  File
 };
 
 export const NavItem = ({
