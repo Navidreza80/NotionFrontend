@@ -12,7 +12,7 @@ const Page = async ({
   searchParams: { isOpen: string; expandedPageId: string };
 }) => {
   const { id } = await params;
-  const { isOpen, expandedPageId } = searchParams;
+  const { isOpen, expandedPageId } = await searchParams;
   const page = await fetchPageById(id);
   const content = page.content;
   return (
