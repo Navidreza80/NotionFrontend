@@ -21,17 +21,21 @@
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "fast-json-patch": "^3.1.1",
+    "framer-motion": "^12.23.12",
     "lucide-react": "^0.541.0",
     "next": "15.5.0",
     "next-auth": "^5.0.0-beta.29",
     "prisma": "^6.14.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-hot-toast": "^2.6.0",
+    "roughjs": "^4.6.6",
     "socket.io-client": "^4.8.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.3.1",
     "use-debounce": "^10.0.5",
-    "zod": "^4.1.3"
+    "zod": "^4.1.3",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
