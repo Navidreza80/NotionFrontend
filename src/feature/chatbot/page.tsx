@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { RecentlyCard } from "@/components/common/chatbot/RecentlyCard";
 import OpenSidebar from "@/components/common/sidebar/OpenSidebar";
+import { fetchWorkspaces } from "@/lib/actions/workspaces.action";
+import { fetchPages } from "@/lib/actions/page.action";
 
 // Message type for chat state
 export interface Message {
@@ -48,30 +50,43 @@ export default function NotionChatbotPage() {
   // Send message to API and update chat state
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
-
-    // Switch to chat mode when the first user message is sent
     if (!chatMode) setChatMode(true);
-
     const userMessage: Message = {
       role: "user",
       content: input,
       timestamp: new Date(),
     };
-
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
-
     try {
       const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY;
+      const workspaces = await fetchWorkspaces();
+      const pages = await fetchPages();
+      const workspaceText = Array.isArray(workspaces)
+        ? workspaces.map((w) => `- ${w.name}`).join("\n")
+        : "";
+      const pagesText = Array.isArray(pages)
+        ? pages.map((p) => `- ${p.title}`).join("\n")
+        : "";
+      const knowledgeBase = `
+          You are a highly intelligent Notion AI assistant.  
+          The available workspaces are:
+          ${workspaceText}
 
-      // Build conversation history for the API
+          The available pages (projects) within these workspaces are:
+          ${pagesText}
+
+          Only answer questions related to these workspaces or pages.  
+          If a question is unrelated, respond with:  
+          "I can only assist with the workspaces and pages available in this Notion system."
+
+          For every user query, identify the closest matching page or project and provide the link or reference from the available pages.  
+          Always provide a clear, concise, and helpful response in natural language.`;
+
+
       const conversation = [
-        {
-          role: "system",
-          content:
-            "Our AI assistant helps users quickly find the right workspace and pages they need. Just type your request, and the system will guide you to the exact project in seconds.",
-        },
+        { role: "system", content: knowledgeBase },
         ...messages.map(({ role, content }) => ({
           role: role === "assistant" ? "assistant" : "user",
           content,
@@ -79,7 +94,6 @@ export default function NotionChatbotPage() {
         { role: "user", content: input },
       ];
 
-      // Send request to OpenRouter
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -309,26 +323,60 @@ export default function NotionChatbotPage() {
             </div>
 
             {/* Chat input */}
-            <div className="p-3 border-t border-[#505050] ">
-              <div className="relative flex items-center">
-                <input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={handleKeyPress}
-                  placeholder="Ask, search, or make anything..."
-                  className="flex-1 bg-[#353535] h-[48px] rounded-lg pl-3 pr-12 text-sm outline-none placeholder-white/80"
-                  disabled={loading}
-                />
-                <button
-                  onClick={sendMessage}
-                  disabled={loading || !input.trim()}
-                  className={`absolute right-2 p-2 w-8 h-8 rounded-full flex items-center justify-center transition ${loading || !input.trim()
-                    ? "bg-[#505050] cursor-not-allowed"
-                    : "bg-blue-600 hover:bg-blue-500"
-                    }`}
-                >
-                  {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ArrowUp size={16} />}
-                </button>
+            <div className="p-3 border-t border-[#505050]">
+              <div className="mt-2 p-3 pb-1 rounded-2xl border border-[#242424] focus-within:border-[#383838] bg-[#202020] transition-all duration-300">
+                {/* Context tag */}
+                <div className="flex w-fit items-center rounded-full text-sm gap-1.5 py-1 px-2 text-[#686868] font-semibold border border-[#383838]">
+                  <span>@</span> Add context
+                </div>
+
+                {/* Input field */}
+                <div className="flex items-center gap-3 py-3 mt-2">
+                  <input
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyPress}
+                    placeholder="Ask, search, or make anything..."
+                    className="w-full bg-transparent placeholder-[#595959] placeholder:text-sm placeholder:font-semibold font-semibold text-sm focus:outline-none"
+                    disabled={loading}
+                  />
+                </div>
+
+                {/* Action buttons */}
+                <div className="flex items-center justify-between pt-2.5 flex-wrap gap-3">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <button className="rounded-full p-2 hover:bg-[#282828]">
+                      <Paperclip size={16} />
+                    </button>
+                    <button className="rounded-full text-[15px] text-[#9f9b94] font-semibold py-1 px-3 hover:bg-[#282828]">
+                      Auto
+                    </button>
+                    <button className="rounded-full text-[15px] text-[#9f9b94] font-semibold py-1.5 px-2 hover:bg-[#282828] flex gap-1">
+                      <Eye size={16} className="text-[#a8a49c] my-auto" />
+                      Research
+                    </button>
+                    <button className="rounded-full text-[15px] text-[#9f9b94] font-semibold py-1.5 px-2 hover:bg-[#282828] flex gap-1">
+                      <Globe size={16} className="text-[#8e8b86] my-auto" />
+                      All sources
+                    </button>
+                  </div>
+
+                  {/* Send button */}
+                  <button
+                    onClick={sendMessage}
+                    disabled={loading || !input.trim()}
+                    className={`w-8 h-8 flex items-center justify-center rounded-full transition ${loading || !input.trim()
+                      ? "bg-[#808080] cursor-not-allowed"
+                      : "bg-blue-600 hover:bg-blue-500"
+                      }`}
+                  >
+                    {loading ? (
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                      <ArrowUp size={15} />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>
