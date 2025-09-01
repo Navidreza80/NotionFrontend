@@ -63,20 +63,15 @@ export default function NotionChatbotPage() {
       const apiKey = process.env.NEXT_PUBLIC_OPENROUTER_API_KEY;
       const workspaces = await fetchWorkspaces();
       const pages = await fetchPages();
-      const workspaceText = Array.isArray(workspaces)
-        ? workspaces.map((w) => `- ${w.name}`).join("\n")
-        : "";
-      const pagesText = Array.isArray(pages)
-        ? pages.map((p) => `- ${p.title}`).join("\n")
-        : "";
+
       const knowledgeBase = `
 You are a highly intelligent Notion AI assistant.  
 
 The available workspaces are:
-${workspaceText}
+${JSON.stringify(workspaces, null, 2)}
 
 The available pages (projects) within these workspaces are:
-${pagesText}
+${JSON.stringify(pages, null, 2)}
 
 Your task:
 1. When the user asks about a workspace or project, always find the closest matching page from the list.  
