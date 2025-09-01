@@ -197,11 +197,11 @@ If the user asks about something unrelated to the given workspaces or pages, res
                     Auto
                   </button>
                   <button className="rounded-full text-[15px] text-[#9f9b94] font-semibold py-1.5 px-2 hover:bg-[#282828] flex gap-1">
-                    <Eye size={16} className="text-[#a8a49c]" />
+                    <Eye size={16} className="text-[#a8a49c] my-auto" />
                     Research
                   </button>
                   <button className="rounded-full text-[15px] text-[#9f9b94] font-semibold py-1.5 px-2 hover:bg-[#282828] flex gap-1">
-                    <Globe size={16} className="text-[#8e8b86]" />
+                    <Globe size={16} className="text-[#8e8b86] my-auto" />
                     All sources
                   </button>
                 </div>
