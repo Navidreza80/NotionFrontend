@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { getJWTToken } from "./jwt.action";
 
 export const fetchPageById = async (pageId: string) => {
@@ -55,6 +56,7 @@ export const fetchPages = async () => {
           "Content-Type": "application/json",
         },
         cache: "force-cache",
+        next: { tags: ["PAGES"] },
       }
     );
     const page = await res.json();
@@ -84,6 +86,7 @@ export const updatePageById = async (
       }
     );
     const page = await res.json();
+    revalidateTag("PAGES");
     return page;
   } catch (error) {
     throw error;

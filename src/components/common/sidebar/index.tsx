@@ -29,7 +29,12 @@ export default async function Sidebar({
             {/* Top navigation items */}
             <div className="px-1">
               {SIDEBARTOPITEMS.map((item, index) => (
-                <NavItem key={index} label={item.label} icon={item.icon} />
+                <NavItem
+                  key={index}
+                  label={item.label}
+                  icon={item.icon}
+                  href={item.href}
+                />
               ))}
             </div>
             {/* Private pages */}
