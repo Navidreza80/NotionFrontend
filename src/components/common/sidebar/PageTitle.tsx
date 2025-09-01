@@ -52,17 +52,14 @@ const PageTitle = ({
       <div className="flex items-center gap-1.5">
         <span className="text-white/30 w-5 h-5 flex items-center justify-center rounded hover:bg-zinc-700/80 transition-all duration-300 relative z-10">
           <PageIcon className={`block ${expandable && "group-hover:hidden"}`} />
-          {isCurrentPage &&
-            setIsCurrentPageOptimistic &&
-            isCurrentPageOptimistic &&
-            expandable && (
-              <ExpandPage
-                isCurrentPageOptimistic={isCurrentPageOptimistic}
-                setIsCurrentPageOptimistic={setIsCurrentPageOptimistic}
-                id={id}
-                isCurrentPage={isCurrentPage}
-              />
-            )}
+          {expandable && (
+            <ExpandPage
+              isCurrentPageOptimistic={isCurrentPageOptimistic}
+              setIsCurrentPageOptimistic={setIsCurrentPageOptimistic}
+              id={id}
+              isCurrentPage={isCurrentPage}
+            />
+          )}
         </span>
         <Link
           href={"/pages/" + id}

@@ -43,6 +43,7 @@ export const PageItem = ({
   return (
     <div>
       <PageTitle
+        expandable={true}
         isCurrentPageOptimistic={isCurrentPageOptimistic}
         setPages={setPages}
         label={label}
