@@ -293,14 +293,14 @@ const RoomPage = () => {
                 lineWidth={lineWidth}
               />
             ) : (
-              <div className="relative w-full h-[500px] md:h-[600px] flex items-center justify-center">
+              <div className="relative w-full h-[1409px] md:h-[1409px] flex items-center justify-center">
                 {image ? (
                   <Image
                     fill
                     src={image}
                     unoptimized
                     alt="Whiteboard"
-                    className="object-contain"
+                    className="object-contain h-full w-full scale-[200%]"
                   />
                 ) : (
                   <div className="flex flex-col items-center justify-center w-full h-full text-surface">

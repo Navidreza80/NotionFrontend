@@ -1,10 +1,6 @@
-import { Loader } from "lucide-react";
+import NotionLoader from "@/components/common/loader";
 
 const loading = () => {
-  return (
-    <div className="w-screen h-screen flex items-center justify-center">
-      <Loader className="animate-spin" />
-    </div>
-  );
+  return <NotionLoader />;
 };
 export default loading;
