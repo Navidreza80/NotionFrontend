@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { Socket } from "socket.io-client";
 import CreateRoom from "./create-room";
 import JoinRoom from "./join-room";
+import OpenSidebar from "@/components/common/sidebar/OpenSidebar";
 
 // single socket instance (global, not per render)
 const socket: Socket = initSocket();
@@ -22,10 +23,8 @@ const Forms = () => {
     }) => {
       if (data.success && data.roomId) {
         toast.success(`Successfully joined room: ${data.roomId}`);
-        console.log("User joined successfully", data);
       } else {
         toast.error(data.message || "Failed to join room.");
-        console.error("Error joining room:", data.message);
       }
     };
 
@@ -40,6 +39,9 @@ const Forms = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
+      <header className="w-full fixed top-3 left-3">
+        <OpenSidebar />
+      </header>
       <div className="w-full max-w-md">
         <div className="bg-card rounded-lg border border-border p-8 space-y-6">
           {/* Tabs */}

@@ -10,10 +10,7 @@ export function initSocket(): TypedSocket {
       timeout: 10000,
       transports: ["websocket"],
     });
-    socket.on("connect", () => console.log("✅ socket connected", socket.id));
-    socket.on("connect_error", (e) =>
-      console.error("connect_error:", e.message)
-    );
+    socket.on("connect", () => console.log("socket connected", socket.id));
   }
   return socket;
 }
