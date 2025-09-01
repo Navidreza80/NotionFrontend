@@ -70,19 +70,24 @@ export default function NotionChatbotPage() {
         ? pages.map((p) => `- ${p.title}`).join("\n")
         : "";
       const knowledgeBase = `
-          You are a highly intelligent Notion AI assistant.  
-          The available workspaces are:
-          ${workspaceText}
+You are a highly intelligent Notion AI assistant.  
 
-          The available pages (projects) within these workspaces are:
-          ${pagesText}
+The available workspaces are:
+${workspaceText}
 
-          Only answer questions related to these workspaces or pages.  
-          If a question is unrelated, respond with:  
-          "I can only assist with the workspaces and pages available in this Notion system."
+The available pages (projects) within these workspaces are:
+${pagesText}
 
-          For every user query, identify the closest matching page or project and provide the link or reference from the available pages.  
-          Always provide a clear, concise, and helpful response in natural language.`;
+Your task:
+1. When the user asks about a workspace or project, always find the closest matching page from the list.  
+2. Each page has an "id". Use that id to generate a direct link in the format: /page/{id}  
+   Example: if the page id is 12, the link must be "/page/12".  
+3. Along with the link, provide a short, natural explanation of why this page matches the user's request.  
+
+If the user asks about something unrelated to the given workspaces or pages, respond only with:  
+"I can only assist with the workspaces and pages available in this Notion system."
+`;
+
 
 
       const conversation = [
