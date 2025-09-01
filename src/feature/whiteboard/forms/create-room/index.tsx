@@ -3,18 +3,12 @@
 import { uuid } from "@/helper/generate-random-uuid";
 import { useUserStore } from "@/stores/useUserStore";
 import { TypedSocket } from "@/types/socket.type";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { FaCopy, FaSyncAlt } from "react-icons/fa";
 
-const CreateRoom = ({
-  socket,
-}: {
-  session: Promise<Session>;
-  socket: TypedSocket;
-}) => {
+const CreateRoom = ({ socket }: { socket: TypedSocket }) => {
   const user = useSession();
 
   const setUser = useUserStore((state) => state.setUser);
@@ -102,7 +96,7 @@ const CreateRoom = ({
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full flex justify-center py-3 px-4 rounded-md shadow-sm text-sm font-medium bg-surface hover:bg-surface/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-300 disabled:cursor-not-allowed transition-colors"
+        className="w-full cursor-pointer flex justify-center py-3 px-4 rounded-md shadow-sm text-sm font-medium bg-surface hover:bg-surface/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-surface/8- disabled:cursor-not-allowed transition-colors"
       >
         {isLoading ? "Creating Room..." : "Create & Join Room"}
       </button>

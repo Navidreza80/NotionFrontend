@@ -1,7 +1,6 @@
 export const SIDEBARTOPITEMS = [
-  { icon: "Search", label: "Search" },
-  { icon: "Home", label: "Home" },
-  { icon: "Inbox", label: "Inbox" },
+  { icon: "Home", label: "Home", href: "/" },
+  { icon: "Edit", label: "Whiteboard", href: "/whiteboard" },
 ];
 
 export const INITIALCONTENT = [
