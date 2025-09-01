@@ -1,6 +1,8 @@
+"use client";
+
 import { Page } from "@/generated/prisma";
+import { use, useState } from "react";
 import { PageItem } from "./PageItem";
-import { use } from "react";
 
 const Pages = ({
   data,
@@ -9,11 +11,13 @@ const Pages = ({
   data: Promise<Page[]>;
   expandedPageId: string;
 }) => {
-  const pages = use(data);
+  const fetchedPages = use(data);
+  const [pages, setPages] = useState(fetchedPages);
   return (
     <div className="px-1">
-      {pages.map((item: Page) => (
+      {pages?.map((item: Page) => (
         <PageItem
+          setPages={setPages}
           expandedPageId={expandedPageId}
           key={item.id}
           label={item.title}

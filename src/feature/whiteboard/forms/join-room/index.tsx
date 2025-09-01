@@ -47,7 +47,7 @@ const JoinRoom = ({ socket }: JoinRoomProps) => {
     socket.emit("userJoined", roomData);
 
     // Redirect to room
-    router.push(`/test-whiteboard/${roomId.trim()}`);
+    router.push(`/whiteboard/${roomId.trim()}`);
   };
 
   return (

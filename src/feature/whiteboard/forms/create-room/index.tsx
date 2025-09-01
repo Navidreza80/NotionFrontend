@@ -47,7 +47,7 @@ const CreateRoom = ({ socket }: { socket: TypedSocket }) => {
 
     setUser(roomData);
     socket.emit("userJoined", roomData);
-    router.push(`/test-whiteboard/${roomId}`);
+    router.push(`/whiteboard/${roomId}`);
   };
 
   return (
